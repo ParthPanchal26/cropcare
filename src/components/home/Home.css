@@ -1,0 +1,86 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.section_1 {
+    width: 800px;
+    text-align: center;
+}
+
+.title {
+    color: black;
+    font-size: 50px;
+    font-family: Lusitana;
+    font-weight: 700;
+    word-wrap: break-word;
+}
+
+.desc {
+    color: black;
+    font-size: 24px;
+    font-family: Marmelad;
+    font-weight: 400;
+    word-wrap: break-word;
+    text-align: center;
+}
+
+.get_started {
+    margin-top: 30px;
+    margin-inline: 10px;
+    border: 2px solid;
+    width: 223px;
+    height: 69px;
+    font-weight: 400;
+    font-family: Alatsi;
+    font-size: 36px;
+    border-radius: 45px;
+    background-color: #0F785B;
+    border: 1px solid #0d6d52;
+    color: white;
+    transition: 0.3s;
+}
+
+.get_started:hover {
+    cursor: pointer;
+    border: 0;
+    background-color: rgb(0, 184, 0);
+}
+
+.learn_more {
+    border-radius: 2px;
+    background-color: white;
+    font-size: 36px;
+    font-family: Alatsi;
+    font-weight: 400;
+    word-wrap: break-word;
+    color: black;
+    width: 223px;
+    height: 69px;
+    transition: 0.3s;
+}
+
+.learn_more:hover {
+    background-color: black;
+    color: white;
+    cursor: pointer;
+}
+
+.hero_cropcare_pic {
+    display: block;
+    margin: auto;
+    margin-top: 3rem;
+    object-fit: contain;
+    width: 1051px;
+    height: 776px;
+    filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.25));
+}
