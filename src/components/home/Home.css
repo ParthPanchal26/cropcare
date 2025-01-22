@@ -90,6 +90,7 @@
     display: flex;
     width: 1270px;
     justify-content: space-around;
+    align-items: center;
 }
 
 .part_1 {
