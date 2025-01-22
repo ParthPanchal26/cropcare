@@ -84,3 +84,49 @@
     height: 776px;
     text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
 }
+
+.section_2 {
+    margin-top: 12rem;
+    display: flex;
+    width: 1270px;
+    justify-content: space-around;
+}
+
+.part_1 {
+    width: 700px;
+    margin-right: 2rem;
+}
+
+.title {
+    width: 700px;
+    color: black;
+    font-size: 48px;
+    font-family: Lusitana;
+    font-weight: 700;
+    line-height: 62px;
+    word-wrap: break-word;
+}
+
+.part_1_desc {
+    margin: 1rem 0.5rem;
+    width: 648px;
+    color: black;
+    font-size: 24px;
+    font-family: Marmelad;
+    font-weight: 400;
+    word-wrap: break-word;
+}
+
+.bullets {
+    margin: 1rem 0.5rem;
+    font-size: 24px;
+    font-family: Marmelad;
+    font-weight: 400;
+    width: 700px;
+}
+
+.plant_pic {
+    width: 531px;
+    height: 531px;
+}
+
