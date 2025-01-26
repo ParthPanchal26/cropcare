@@ -8,7 +8,6 @@ const App = () => {
       <Routes>
         <Route path='/cropcare/' exact element={<Home />} />
         <Route path='/cropcare/chat/' exact element={<Chat />} />
-        <Route path='/cropcare/about-us/' exact element={<AboutUs />} />
       </Routes>
     </BrowserRouter>    
   )

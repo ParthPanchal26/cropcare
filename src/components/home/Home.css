@@ -13,8 +13,9 @@
 }
 
 .section_1 {
-    width: 800px;
+    width: 900px;
     text-align: center;
+    margin: auto;
 }
 
 .title {
@@ -23,6 +24,8 @@
     font-family: Lusitana;
     font-weight: 700;
     word-wrap: break-word;
+    display: block;
+    margin: auto;
 }
 
 .desc {
@@ -32,6 +35,8 @@
     font-weight: 400;
     word-wrap: break-word;
     text-align: center;
+    display: block;
+    margin: auto;
 }
 
 .get_started {
@@ -86,10 +91,11 @@
 }
 
 .section_2 {
-    margin-top: 12rem;
     display: flex;
     width: 1270px;
     justify-content: space-around;
+    margin: auto;
+    margin-top: 12rem;
 }
 
 .part_1 {

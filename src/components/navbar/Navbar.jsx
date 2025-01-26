@@ -1,4 +1,3 @@
-import React from 'react'
 import { Link } from 'react-router'
 import './Navbar.css'
 const Navbar = () => {
@@ -9,8 +8,8 @@ const Navbar = () => {
       slug: '/cropcare/',
     },
     {
-      name: 'About us',
-      slug: '/cropcare/about-us'
+      name: 'Chat',
+      slug: '/cropcare/chat'
     },
   ]
 
