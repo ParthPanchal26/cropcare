@@ -1,65 +1,36 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router';
-import './Navbar.css';
+import React, { useState } from 'react'
+import { Link } from 'react-router'
+import cropcare from '../../assets/cropcare.svg'
 
-const Navbar = ({ updateNav }) => {
+const Navbar = () => {
 
-  const [nav, setNav] = useState(updateNav);
+  const [isNavOpen, setIsNavOpen] = useState(false)
 
-  const navItems = [
-    {
-      name: 'Home',
-      slug: '/cropcare/',
-    },
-    {
-      name: 'Chat',
-      slug: '/cropcare/chat'
-    },
-  ]
-
-  const navigate = useNavigate();
-
-  const handleNavIn = () => {
-    setNav(!nav)
-    navigate("/cropcare/chat")
+  const handlePopUp = () => {
+    setIsNavOpen(!isNavOpen)
   }
 
-  const handleNavOut = () => {
-    setNav(!nav)
-    navigate("/cropcare/")
-  }
 
   return (
-    <nav>
-      <img src="cropcare.svg" alt="" />
+    <nav className=''>
+      <section className='flex justify-around items-center m-2'>
 
-      {nav && nav
-        ?
-        <div className="profile_nav">
-          <span className='profile_nav_item'><Link style={{textDecoration: 'none', color: 'white', wordWrap: 'break-word'}} to={'/cropcare/'}>Home</Link></span>
-          <span className='profile_nav_item'><Link style={{textDecoration: 'none', color: 'white', wordWrap: 'break-word'}} to={'/cropcare/chat'}>Chat</Link></span>
-          <button className='login logout' onClick={handleNavOut}>Logout</button>
-          <span className='profile_nav_item'><img className='profile_icon' src="./profile.png" alt="" /></span>
-        </div>
-        :
-        <div className="section-2">
-          <ul>
-            {navItems.map((item) => (
-              <span key={item.name} className='navlink'>
-                <Link style={{ marginInline: '10px', textDecoration: 'none', width: 67, height: 47, color: 'black', fontSize: 24, fontFamily: 'ABeeZee', fontWeight: '500', wordWrap: 'break-word' }} to={item.slug}>{item.name}
-                </Link>
-              </span>
-            ))}
-          </ul>
+        <Link to="/cropcare/"><img src={cropcare} alt="./cropcare.svg" className='hover:cursor-pointer' /></Link>
 
-          <button className='login' onClick={handleNavIn}>Log In</button>
-          <button className='signup'>Sign up</button>
-        </div>
-      }
+        <button onClick={handlePopUp} type="button" className="inline-flex justify-center h-15 items-end hover:cursor-pointer">
+          {isNavOpen ? <i className='material-icons'>close</i> : <i className='material-icons'>menu</i>}
+        </button>
+      </section>
 
-    </nav>
+      <div style={{ boxShadow: "0 0 3px gray" }} className={`mb-1 rounded w-80 m-auto text-center font-semibold text-xl flex flex-col transition-all ${isNavOpen ? 'block' : "hidden"}`} id='pop-up'>
+        <Link onClick={handlePopUp} to="/cropcare/" className='list-none transition-all py-3 mx-8 mt-2 hover:underline underline-offset-2 hover:cursor-pointer'>Home</Link>
+        <Link onClick={handlePopUp} to="/cropcare/chat/" className='list-none transition-all py-3 mx-8 mt-2 hover:underline underline-offset-2 hover:cursor-pointer'>Chat</Link>
+        <Link onClick={handlePopUp} to="/cropcare/login/" className='list-none transition-all py-3 mx-8 mt-2'><button className='w-[187px] h-[67px] bg-[#0F785B] rounded-[45px] py-3 px-12 text-white transition-all hover:bg-[#16C222] hover:cursor-pointer'>Login</button></Link>
+        <Link onClick={handlePopUp} to="/cropcare/login/" className='list-none transition-all py-3 mx-8 mt-2'><button className='w-[187px] h-[67px] bg-white border border-[#1EB494] rounded-[45px] py-3 px-12 text-black transition-transform hover:bg-black hover:text-white hover:cursor-pointer'>Sign Up</button></Link>
+      </div>
+
+    </nav >
   )
-
 }
 
 export default Navbar

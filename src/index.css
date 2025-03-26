@@ -1,0 +1,19 @@
+html,
+body {
+    overflow-y: auto !important;
+    scrollbar-width: none;
+}
+textarea,
+div {
+    overflow-x: auto !important;
+    scrollbar-width: none;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+textarea::-webkit-scrollbar,
+div::-webkit-scrollbar {
+    display: none;
+}
+
+@import "tailwindcss";
