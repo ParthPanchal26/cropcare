@@ -14,6 +14,8 @@ const Chat = () => {
   const [previewImg, setPreviewImg] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  const server = import.meta.env.VITE_SERVER;
+
   const scrollRef = useRef(null);
 
   const handleChange = (e) => {
@@ -44,7 +46,7 @@ const Chat = () => {
     if (currentImage) formData.append("file", currentImage);
 
     try {
-      const response = await axios.post("http://localhost:8000/upload", formData);
+      const response = await axios.post(`${server}/upload`, formData);
       console.log(response.data);
       const botReply = response.data.explanation || "No explanation received.";
       setMessages((prev) => [...prev, { text: botReply, sender: "bot" }]);
@@ -64,120 +66,6 @@ const Chat = () => {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
   }, [messages]);
-
-  // return (
-  //   <section className="h-[80vh] max-w-screen flex flex-col border-2">
-  //     <div
-  //       className="flex-1 overflow-y-auto space-y-4 p-4 rounded-lg"
-  //       ref={scrollRef}
-  //     >
-  //       {messages.map((msg, index) => (
-  //         <div
-  //           key={index}
-  //           className={`px-4 py-3 rounded-lg shadow break-words ${msg.sender === "user"
-  //               ? "bg-slate-800 text-white ml-auto max-w-[85%] sm:max-w-[70%]"
-  //               : "bg-gray-700 text-white self-start max-w-[85%] sm:max-w-[70%]"
-  //             }`}
-  //         >
-  //           {msg.image && (
-  //             <img
-  //               src={msg.image}
-  //               alt="uploaded"
-  //               className="w-full max-w-[150px] sm:max-w-[100px] h-auto object-cover mb-2 rounded"
-  //             />
-  //           )}
-
-  //           <ReactMarkdown
-  //             components={{
-  //               p: ({ children }) => (
-  //                 <p className="mb-3 text-justify">{children}</p>
-  //               ),
-  //               code({ inline, className, children }) {
-  //                 const match = /language-(\w+)/.exec(className || "");
-  //                 const codeContent = String(children).trim();
-  //                 return !inline && match ? (
-  //                   <div className="relative">
-  //                     <button
-  //                       className="absolute top-2 right-2 bg-gray-600 text-white px-2 py-1 text-sm rounded hover:bg-gray-900"
-  //                       onClick={() =>
-  //                         navigator.clipboard.writeText(codeContent)
-  //                       }
-  //                     >
-  //                       Copy
-  //                     </button>
-  //                     <SyntaxHighlighter
-  //                       language={match[1]}
-  //                       PreTag="div"
-  //                       className="rounded-sm"
-  //                     >
-  //                       {codeContent}
-  //                     </SyntaxHighlighter>
-  //                   </div>
-  //                 ) : (
-  //                   <code className="bg-gray-800 text-white p-1 rounded-sm">
-  //                     {children}
-  //                   </code>
-  //                 );
-  //               },
-  //             }}
-  //           >
-  //             {msg.text}
-  //           </ReactMarkdown>
-  //         </div>
-  //       ))}
-
-  //       {loading && (
-  //         <div className="px-4 py-3 rounded-lg bg-gray-700 text-white max-w-[70%] self-start">
-  //           Let CropCare think about this... wait for a while!
-  //         </div>
-  //       )}
-  //     </div>
-
-  //     {/* ✅ Input Section */}
-  //     <div className="flex flex-wrap gap-2 p-4 bg-white rounded-lg mt-2">
-  //       <input
-  //         type="file"
-  //         accept="image/*"
-  //         id="fileInput"
-  //         onChange={handleChange}
-  //         className="hidden"
-  //       />
-  //       <label htmlFor="fileInput">
-  //         <img
-  //           src={fileIcon}
-  //           alt="file"
-  //           className="w-[45px] h-[40px] bg-slate-950 rounded-full cursor-pointer"
-  //         />
-  //       </label>
-
-  //       <input
-  //         type="text"
-  //         value={input}
-  //         onChange={(e) => setInput(e.target.value)}
-  //         className="flex-1 px-4 py-2 rounded-[45px] outline-0 bg-gray-200 text-sm sm:text-base"
-  //         placeholder="Type your message..."
-  //       />
-
-  //       <button
-  //         onClick={handleSend}
-  //         className="bg-gray-700 text-white px-4 sm:px-6 py-2 rounded-[45px] hover:bg-slate-950 font-semibold text-sm sm:text-base"
-  //       >
-  //         Send
-  //       </button>
-  //     </div>
-
-  //     {previewImg && (
-  //       <div className="p-2">
-  //         <img
-  //           src={previewImg}
-  //           alt="preview"
-  //           className="w-full max-w-[150px] sm:max-w-[100px] h-auto mt-2 rounded"
-  //         />
-  //       </div>
-  //     )}
-  //   </section>
-
-  // )
 
   return (
     <section className="max-w-5xl w-full mx-auto h-[80vh] flex flex-col px-4">
