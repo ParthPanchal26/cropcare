@@ -47,7 +47,6 @@ const Chat = () => {
 
     try {
       const response = await axios.post(`${server}/upload`, formData);
-      // console.log(response.data);
       const botReply = response.data.explanation || "No explanation received.";
       setMessages((prev) => [...prev, { text: botReply, sender: "bot" }]);
     } catch (err) {
@@ -66,6 +65,16 @@ const Chat = () => {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
   }, [messages]);
+
+  // const getServer = async () => {
+  //   const res = await axios.get(`${server}/get`)
+  //   console.log(res)
+  //   console.log(server)
+  // }
+
+  // useEffect(() => {
+  //   getServer()
+  // }, [])
 
   return (
     <section className="max-w-5xl w-full mx-auto h-[80vh] flex flex-col px-4">
