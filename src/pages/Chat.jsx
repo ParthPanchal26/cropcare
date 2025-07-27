@@ -47,7 +47,7 @@ const Chat = () => {
 
     try {
       const response = await axios.post(`${server}/upload`, formData);
-      console.log(response.data);
+      // console.log(response.data);
       const botReply = response.data.explanation || "No explanation received.";
       setMessages((prev) => [...prev, { text: botReply, sender: "bot" }]);
     } catch (err) {
@@ -69,7 +69,6 @@ const Chat = () => {
 
   return (
     <section className="max-w-5xl w-full mx-auto h-[80vh] flex flex-col px-4">
-      {/* Messages container */}
       <div
         className="flex-1 overflow-y-auto space-y-4 px-0 py-2 rounded-lg"
         ref={scrollRef}
@@ -136,7 +135,6 @@ const Chat = () => {
         )}
       </div>
 
-      {/* ✅ Sticky Input Section for Mobile */}
       <div className="flex flex-wrap gap-2 p-3 bg-white rounded-lg mt-2 sticky bottom-0">
         <input
           type="file"
@@ -169,7 +167,6 @@ const Chat = () => {
         </button>
       </div>
 
-      {/* Image preview responsive */}
       {previewImg && (
         <div className="p-2">
           <img
