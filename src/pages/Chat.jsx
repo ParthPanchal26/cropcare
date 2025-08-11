@@ -4,59 +4,99 @@ import axios from 'axios';
 import ReactMarkdown from "react-markdown";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 
-
 const Chat = () => {
+  
   const [messages, setMessages] = useState([
-    { text: "Hello, How can I help you today? For better answers make sure to tell me in which language should i answer. English is default!", sender: "bot" }
+    {
+      text: "Hello, How can I help you today? For better answers make sure to tell me in which language should i answer. English is default!",
+      sender: "bot"
+    }
   ]);
+
   const [input, setInput] = useState("");
-  const [image, setImage] = useState(null);
+  const [base64Image, setBase64Image] = useState(null);
   const [previewImg, setPreviewImg] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const server = import.meta.env.VITE_SERVER;
-
   const scrollRef = useRef(null);
 
-  const handleChange = (e) => {
+  const resizeAndConvertToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      const reader = new FileReader();
+
+      reader.onload = (e) => {
+        img.src = e.target.result;
+      };
+
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+        const size = 512;
+        canvas.width = size;
+        canvas.height = size;
+        ctx.drawImage(img, 0, 0, size, size);
+        const resizedBase64 = canvas.toDataURL("image/jpeg", 0.8);
+        resolve(resizedBase64);
+      };
+
+      img.onerror = (err) => {
+        reject(err);
+      };
+
+      reader.readAsDataURL(file);
+    });
+  };
+
+  const handleChange = async (e) => {
     const selectedFile = e.target.files[0];
     if (selectedFile) {
-      setImage(selectedFile);
       setPreviewImg(URL.createObjectURL(selectedFile));
+      try {
+        const resizedBase64 = await resizeAndConvertToBase64(selectedFile);
+        setBase64Image(resizedBase64);
+      } catch (err) {
+        console.error("Image resize error:", err);
+        setBase64Image(null);
+      }
     }
     e.target.value = "";
   };
 
   const handleSend = async () => {
-    if (!input && !image) return;
+    if (!input && !base64Image) return;
 
     const userMsg = { text: input || "", image: previewImg || null, sender: "user" };
     setMessages((prev) => [...prev, userMsg]);
 
-    setInput("");
-    setPreviewImg(null);
-
-    const currentImage = image;
-    setImage(null);
-
     setLoading(true);
 
-    const formData = new FormData();
-    if (input) formData.append("text", input);
-    if (currentImage) formData.append("file", currentImage);
-
     try {
-      const response = await axios.post(`${server}/upload`, formData);
+      const payload = {
+        text: input || "",
+        imageBase64: base64Image || null,
+      };
+
+      const response = await axios.post(`${server}/upload`, payload, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
       const botReply = response.data.explanation || "No explanation received.";
       setMessages((prev) => [...prev, { text: botReply, sender: "bot" }]);
-    } catch (err) {
-      console.error(err);
+    } catch (error) {
+      console.error(error);
       setMessages((prev) => [
         ...prev,
         { text: "Upload failed. Please try again.", sender: "bot" }
       ]);
     } finally {
       setLoading(false);
+      setBase64Image(null);
+      setInput("");
+      setPreviewImg(null);
     }
   };
 
@@ -65,16 +105,6 @@ const Chat = () => {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
   }, [messages]);
-
-  // const getServer = async () => {
-  //   const res = await axios.get(`${server}/get`)
-  //   console.log(res)
-  //   console.log(server)
-  // }
-
-  // useEffect(() => {
-  //   getServer()
-  // }, [])
 
   return (
     <section className="max-w-5xl w-full mx-auto h-[80vh] flex flex-col px-4">
@@ -88,7 +118,7 @@ const Chat = () => {
             className={`px-4 py-3 rounded-lg shadow break-words ${msg.sender === "user"
                 ? "bg-slate-800 text-white ml-auto max-w-[90%] sm:max-w-[70%] md:max-w-[90%] border-r-6 border-gray-500 transition hover:bg-slate-900"
                 : "bg-gray-700 text-white self-start max-w-[90%] sm:max-w-[70%] md:max-w-[90%] border-l-6 border-slate-800 transition hover:bg-gray-600"
-              }`}
+            }`}
           >
             {msg.image && (
               <img
@@ -186,9 +216,7 @@ const Chat = () => {
         </div>
       )}
     </section>
-
-  )
-
+  );
 };
 
 export default Chat;
